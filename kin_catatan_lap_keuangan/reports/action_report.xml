@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record model="report.paperformat" id="kin_clp_report_paper_format">
+            <field name="name">kin_clp_report_paper_format</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_width">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_right">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">15</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">96</field>
+        </record>        
+        
+        <report 
+            id="clp_report_action"
+            model="clp.report.wizard"
+            string="Catatan Laporan Keuangan"
+            report_type="qweb-pdf" 
+            attachment_use="False"
+            print_report_name="'Catatan_Lap_Keuangan_%s' % object.date_from"
+            name="kin_catatan_lap_keuangan.clp_report_template"
+            file="kin_catatan_lap_keuangan.clp_report_template"
+            paperformat="kin_clp_report_paper_format"
+            menu="False"
+            />
+
+
+    </data>
+</odoo>

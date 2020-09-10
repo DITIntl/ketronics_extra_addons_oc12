@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="kinsoft_purchase_report_form" model="ir.ui.view">
+            <field name="name">kinsoft_purchase_report_form</field>
+            <field name="model">kinsoft.purchase.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="filter"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <notebook invisible="1" >  
+                        <page string="Invoices" >
+                            <field name="invoice_line_ids" >
+                                <tree>
+                                    <field name="invoice_id" />
+                                    <field name="efaktur_text" />
+                                    <field name="date_invoice" />
+                                    <field name="product_id" />
+                                    <field name="quantity" />
+                                    <field name="uom_id" />
+                                    <field name="price_unit" />
+                                    <field name="price_subtotal" sum="Price Subtotal" />
+                                    <field name="invoice_line_tax_ids" widget="many2many_tags" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button type="object" name="action_submit" string="Submit" class="oe_highlight"/>
+                        <button name="action_submit" string="Print Excel"
+                            type="object" class="oe_highlight"
+                            context="{'excel_report':1}"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <report
+            id="action_report_purchase_excel"
+            model="kinsoft.purchase.report.wizard"
+            string="Purchase Report"
+            report_type="xlsx"
+            name="ki_purchase_report.report_purchase_excel"
+            file="purchase_report_excel"
+            attachment_use="False"
+            />
+
+        <act_window
+            id="kinsoft_purchase_report_action"
+            res_model="kinsoft.purchase.report.wizard"
+            name="Purchase Report"
+            src_model="account.invoice"
+            view_mode="form"
+            multi="True"
+            target="new"
+            key2="client_action_multi"
+        />
+        
+        <menuitem id="kinsoft_purchase_report" name="Purchase Report" parent="account.account_reports_management_menu" action="kinsoft_purchase_report_action" sequence="99"/>
+
+    </data>
+</odoo>

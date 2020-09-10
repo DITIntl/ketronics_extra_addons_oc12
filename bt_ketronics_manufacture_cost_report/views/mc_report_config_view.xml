@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record model="ir.ui.view" id="mc_report_config_form">
+            <field name="name">mc_report_config_form</field>
+            <field name="model">mc.report.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="execute" string="Save" type="object" class="btn btn-primary" />
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+
+                        <group string="Stock Account" >
+                            <group>
+                                <field name="property_valuation" />
+                                <field name="persediaan_barang_dalam_proses_account_id" options="{'no_open': True, 'no_create': True}" />
+                                <field name="persediaan_barang_jadi_account_id" options="{'no_open': True, 'no_create': True}" />
+                            </group>
+                            <group>
+                                <field name="pembelian_material_account_id" attrs="{'invisible': [('property_valuation','!=','manual')]}" options="{'no_open': True, 'no_create': True}" />
+                                <field name="stock_input_account_id" attrs="{'invisible': [('property_valuation','!=','real_time')]}" options="{'no_open': True, 'no_create': True}" />
+                                <field name="realtime_persediaan_material_account_id" options="{'no_open': True, 'no_create': True}" />
+                            </group>
+                        </group>
+
+                        <group string="Account Journal" >
+                            <group>
+                                <field name="purchase_journal_id" />
+                                <field name="stock_journal_id" />
+                            </group>
+                            <group>
+                                <field name="adjustment_journal_id" />
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page name="biaya_pembelian" string="Biaya Pembelian">
+                                <field name="pembelian_material_account_ids" options="{'no_create': True}" widget="many2many">
+                                    <tree >
+                                        <field name="code" />
+                                        <field name="name" />
+                                        <field name="user_type_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="biaya_tenaga_kerja" string="Biaya Tenaga Kerja">
+                                <field name="labor_cost_account_ids" options="{'no_create': True}" widget="many2many">
+                                    <tree >
+                                        <field name="code" />
+                                        <field name="name" />
+                                        <field name="user_type_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="biaya_overhead_pabrik" string="Biaya Overhead Pabrik">
+                                <field name="overhead_cost_account_ids" options="{'no_create': True}" widget="many2many">
+                                    <tree >
+                                        <field name="code" />
+                                        <field name="name" />
+                                        <field name="user_type_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mc_report_config_action">
+            <field name="name">Cost of Goods Manufactured</field>
+            <field name="res_model">mc.report.config</field>
+            <field name="view_id" ref="mc_report_config_form" />
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="res_id" ref="mc_report_config_default" />
+        </record>
+
+        <menuitem id="manufacture_eport_config_menu" name="Manufacture Report" parent="account.menu_finance_configuration" sequence="99" />
+
+        <menuitem id="mc_report_config_menu" name="Cost of Goods Manufactured" parent="manufacture_eport_config_menu" action="mc_report_config_action" sequence="1"/>
+
+    </data>
+</odoo>

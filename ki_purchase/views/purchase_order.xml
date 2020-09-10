@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <record model="ir.ui.view" id="view_purchase_order_form_inherit">
+            <field name="name">view_purchase_order_form_inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="attributes"> 
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field> 
+        </record>
+        <!-- Menu Purchase Details -->
+        <record model="ir.ui.view" id="tree_purchase_details">
+            <field name="name">tree_purchase_details</field>
+            <field name="model">purchase.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Order Lines" create="false" default_order="order_id, sequence">
+                    <field name="order_id"/>
+                    <field name="date_order"/>
+                    <field name="partner_id" string="Vendor"/>
+                    <field name="sequence" string="Seq." />
+                    <field name="product_id"/>
+                    <field name="product_qty" digits="(5,0)" string="Order Qty."/>
+                    <field name="qty_received" digits="(5,0)" string="Received Qty."/>
+                    <field name="qty_balance" string="Balance Qty."/>
+                    <field name="product_uom" string="UoM"/>
+                    <field name="price_unit"/>
+                    <field name="price_subtotal" widget="monetary"/>
+                    <field name="date_planned" widget="date" invisible="1"/><field name="state"/>
+                </tree>
+            </field> 
+        </record>
+
+        <record id="action_purchase_details" model="ir.actions.act_window">
+            <field name="name">Purchase Details</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_tree_purchase_details">
+	        <field name="sequence" eval="1"/>
+	        <field name="view_mode">tree</field>
+	        <field name="view_id" ref="tree_purchase_details"/>
+	        <field name="act_window_id" ref="action_purchase_details"/>
+	   	</record>
+
+        <menuitem id="menu_purchase_details" name="Purchase Details"
+            parent="purchase.menu_procurement_management" 
+            sequence="7" 
+            action="action_purchase_details"
+            />
+            
+	</data>
+</odoo>

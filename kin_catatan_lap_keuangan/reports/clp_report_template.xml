@@ -1,0 +1,280 @@
+<odoo>
+    <data>
+        <template id="clp_report_template">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page" style="font-size:12pt;">
+                        <style>
+                            tr.table-footer td{
+                                border-top: 2px solid darkgrey;
+                                border-bottom: 2px solid darkgrey;
+                                font-weight:bold;
+                            }
+                            tr.table-header th{
+                                border-top: 2px solid darkgrey;
+                                border-bottom: 2px solid darkgrey !important;
+                            }
+                            td.total-row{
+                                border-top: thin solid black;
+                            }
+                        </style>
+                        <div class="text-center">
+                            <p style="padding:0;margin:0;">
+                                <strong>CATATAN LAPORAN KEUANGAN</strong>
+                            </p>
+                            <div style="font-size:10pt;">
+                                <p style="padding:0;margin:0;" t-field="user.company_id.name" />
+                                <span t-field="doc.date_from" />
+                                <span> - </span>
+                                <span t-field="doc.date_to" />
+                            </div>
+                            <br/>
+                            <![CDATA[&nbsp;]]>
+                        </div>
+
+                        <div cass="row">
+                            <div class="col-xs-12" style="font-size:10pt;">
+
+                                <t t-set="rData" t-value="doc.get_report_data()" />
+                                <t t-set="total_sales_cost" t-value="0" />
+                                <t t-set="total_general_cost" t-value="0" />
+                                <t t-set="total_other_income" t-value="0" />
+                                <t t-set="total_other_cost" t-value="0" />
+
+                                <table class="table table-sm table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>Lam : 1</td>
+                                            <td colspan="3">
+                                                BIAYA PENJUALAN
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <t t-foreach="rData['sales_cost']" t-as="sc">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <t t-esc="sc.code" />
+                                                </td>
+                                                <td>
+                                                    <t t-esc="sc.name" />
+                                                </td>
+                                                <td class="text-right">
+                                                    <t t-esc="'{0:,.2f}'.format(rData['sales_cost'][sc])" />
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <t t-set="total_sales_cost" t-value="total_sales_cost + rData['sales_cost'][sc]" />
+                                        </t>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                BIAYA PENJUALAN
+                                            </td>
+                                            <td class="total-row text-right">
+                                                <b><t t-esc="'{0:,.2f}'.format(total_sales_cost)" /></b>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lam : 2</td>
+                                            <td colspan="3">
+                                                BIAYA ADMINISTRASI &amp; UMUM
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <t t-foreach="rData['general_cost']" t-as="gc">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <t t-esc="gc.code" />
+                                                </td>
+                                                <td>
+                                                    <t t-esc="gc.name" />
+                                                </td>
+                                                <td class="text-right">
+                                                    <t t-esc="'{0:,.2f}'.format(rData['general_cost'][gc])" />
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <t t-set="total_general_cost" t-value="total_general_cost + rData['general_cost'][gc]" />
+                                        </t>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                BIAYA ADMINISTRASI &amp; UMUM
+                                            </td>
+                                            <td class="total-row text-right">
+                                                <b><t t-esc="'{0:,.2f}'.format(total_general_cost)" /></b>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Lam : 3</td>
+                                            <td colspan="3">
+                                                PENGHASILAN DARI LUAR USAHA
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <t t-foreach="rData['other_income']" t-as="oi">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <t t-esc="oi.code" />
+                                                </td>
+                                                <td>
+                                                    <t t-esc="oi.name" />
+                                                </td>
+                                                <td class="text-right">
+                                                    <t t-esc="'{0:,.2f}'.format(rData['other_income'][oi])" />
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <t t-set="total_other_income" t-value="total_other_income + rData['other_income'][oi]" />
+                                        </t>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                PENGHASILAN DARI LUAR USAHA
+                                            </td>
+                                            <td class="total-row text-right">
+                                                <b><t t-esc="'{0:,.2f}'.format(total_other_income)" /></b>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Lam : 4</td>
+                                            <td colspan="3">
+                                                BIAYA LAIN-LAIN
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <t t-foreach="rData['other_cost']" t-as="oc">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <t t-esc="oc.code" />
+                                                </td>
+                                                <td>
+                                                    <t t-esc="oc.name" />
+                                                </td>
+                                                <td class="text-right">
+                                                    <t t-esc="'{0:,.2f}'.format(rData['other_cost'][oc])" />
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <t t-set="total_other_cost" t-value="total_other_cost + rData['other_cost'][oc]" />
+                                        </t>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                BIAYA LAIN-LAIN
+                                            </td>
+                                            <td class="total-row text-right">
+                                                <b><t t-esc="'{0:,.2f}'.format(total_other_cost)" /></b>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer" style="font-size:8pt;">
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Page </span>
+                                <span class="page" />
+                                <span>of</span>
+                                <span class="topage" />
+                            </div>
+                            <div class="col-6 text-right">
+                                <span>Catatan Laporan Keuangan</span>
+                                <span> | </span>
+                                <span style="padding:0;margin:0;" t-field="user.company_id.name" />
+                                <span> | </span>
+                                <span t-field="doc.date_from" />
+                                <span>-</span>
+                                <span t-field="doc.date_to" />
+                                <span> | </span>
+                                <span>Printed at : </span>
+                                <span t-field="doc.create_date" />
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

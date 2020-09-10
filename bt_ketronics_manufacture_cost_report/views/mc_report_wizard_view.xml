@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mc_report_wizard_form" model="ir.ui.view">
+            <field name="name">mc_report_wizard_form</field>
+            <field name="model">mc.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button type="object" name="action_submit" string="Submit" class="oe_highlight"/>                        
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id="mc_report_wizard_action"
+            res_model="mc.report.wizard"
+            name="Cost of Goods Manufactured"
+            src_model="stock.picking"
+            view_mode="form"
+            multi="True"
+            target="new"
+            key2="client_action_multi"
+        />
+
+        <menuitem id="mc_report_wizard_root_menu" name="Manufacture" parent="account.menu_finance_reports" sequence="99"/>
+
+        <menuitem id="manufacture_cost_report_wizard_menu" name="Cost of Goods Manufactured" parent="mc_report_wizard_root_menu" action="mc_report_wizard_action" sequence="1"/>
+
+    </data>
+</odoo>

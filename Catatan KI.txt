@@ -1,0 +1,1 @@
+python odoo-bin -d erp_ketronics -u report_inventory_excel

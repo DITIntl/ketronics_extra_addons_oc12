@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="butir_sales_report_form" model="ir.ui.view">
+            <field name="name">butir_sales_report_form</field>
+            <field name="model">butir.sales.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="filter"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <notebook invisible="1" >  
+                        <page string="Invoices" >
+                            <field name="invoice_line_ids" >
+                                <tree>
+                                    <field name="invoice_id" />
+                                    <field name="efaktur_text" />
+                                    <field name="date_invoice" />
+                                    <field name="product_id" />
+                                    <field name="quantity" />
+                                    <field name="uom_id" />
+                                    <field name="price_unit" />
+                                    <field name="price_subtotal" sum="Price Subtotal" />
+                                    <field name="invoice_line_tax_ids" widget="many2many_tags" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button type="object" name="action_submit" string="Submit" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id="butir_sales_report_action"
+            res_model="butir.sales.report.wizard"
+            name="Sales Report"
+            src_model="account.invoice"
+            view_mode="form"
+            multi="True"
+            target="new"
+            key2="client_action_multi"
+        />
+        
+        <menuitem id="menu_butir_sales_report" name="Sales Report" parent="account.account_reports_management_menu" action="butir_sales_report_action" sequence="98"/>
+
+    </data>
+</odoo>

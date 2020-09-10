@@ -1,0 +1,421 @@
+<odoo>
+    <data>
+        <template id="mc_report_template">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page" style="font-size:12pt;">
+                        <style>
+                            tr.table-footer td{
+                                border-top: 2px solid darkgrey;
+                                border-bottom: 2px solid darkgrey;
+                                font-weight:bold;
+                            }
+                            tr.table-header th{
+                                border-top: 2px solid darkgrey;
+                                border-bottom: 2px solid darkgrey !important;
+                            }
+                            td.total-row{
+                                border-top: thin solid black;
+                            }
+                        </style>
+                        <div class="text-center">
+                            <p style="padding:0;margin:0;">
+                                <strong>COST OF GOODS MANUFACTURED</strong>
+                            </p>
+                            <div style="font-size:10px;">
+                                <p style="padding:0;margin:0;" t-field="user.company_id.name" />
+                                <span t-field="doc.date_from" />
+                                <span> - </span>
+                                <span t-field="doc.date_to" />
+                            </div>
+                            <br/>
+                            <![CDATA[&nbsp;]]>
+                        </div>
+
+                        <div cass="row">
+                            <div class="col-xs-12" style="font-size:8pt;">
+
+                                <t t-set="rData" t-value="doc.get_report_data()" />
+                                <t t-set="total_bahan_baku" t-value="0" />
+                                <t t-set="total_bahan_penolong" t-value="0" />
+                                <t t-set="total_labor" t-value="0" />
+                                <t t-set="total_overhead" t-value="0" />
+                                <t t-set="total_biaya_produksi" t-value="0" />
+
+                                <table class="table table-sm table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>I</td>
+                                            <td colspan="7">
+                                                <strong>MATERIAL</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-1"></td>
+                                            <td class="col-xs-1"></td>
+                                            <td class="col-xs-4">
+                                                Persediaan Awal
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(rData['material']['begining'])" />
+                                            </td>
+                                            <td class=""></td>
+                                            <td class=""></td>
+                                            <td class=""></td>
+                                            <td class=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                Pembelian
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(rData['material']['purchase'])" />
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                Adjustment
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(rData['material']['adjust'])" />
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                Retur Pembelian
+                                            </td>
+                                            <td class="text-right">
+                                                <span>(</span>
+                                                <t t-esc="'{0:,.2f}'.format(rData['material']['return'])" />
+                                                <span>)</span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                Persediaan Akhir
+                                            </td>
+                                            <td class="text-right">
+                                                <span>(</span>
+                                                <t t-esc="'{0:,.2f}'.format(rData['material']['ending'])" />
+                                                <span>)</span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td >
+                                                <strong>Total Pemakaian Material</strong>
+                                            </td>
+                                            <td class="total-row"></td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(rData['material']['total'])" />
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+
+                                        <!-- _________________________________________________________________- -->
+
+                                        <tr>
+                                            <td>II</td>
+                                            <td colspan="2">
+                                                <strong>BIAYA TENAGA KERJA</strong>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <t t-foreach="rData['labor']" t-as="lab">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <t t-esc="lab.name" />
+                                                </td>
+                                                <td class="text-right">
+                                                    <t t-esc="'{0:,.2f}'.format(rData['labor'][lab])" />
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <t t-set="total_labor" t-value="total_labor + rData['labor'][lab]" />
+                                        </t>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td >
+                                                <b>Total Biaya Tenaga Kerja</b>
+                                            </td>
+                                            <td class="total-row"></td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(total_labor)" />
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>III</td>
+                                            <td colspan="2">
+                                                <strong>BIAYA OVEHEAD PABRIK</strong>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <t t-foreach="rData['overhead']" t-as="ovr">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <t t-esc="ovr.name" />
+                                                </td>
+                                                <td class="text-right">
+                                                    <t t-esc="'{0:,.2f}'.format(rData['overhead'][ovr])" />
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <t t-set="total_overhead" t-value="total_overhead + rData['overhead'][ovr]" />
+                                        </t>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <b>Total Biaya Overhead Pabrik</b>
+                                            </td>
+                                            <td class="total-row"></td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(total_overhead)" />
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td></td>
+                                            <td colspan="3">
+                                                <b>JUMLAH BIAYA PRODUKSI (I + II + III)</b>
+                                            </td>
+                                            <td class=" total-row"></td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(rData['total_production_cost'])" />
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>IV</td>
+                                            <td colspan="2">
+                                                <strong>BARANG DALAM PROSES</strong>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                Barang Dalam Proses Awal
+                                            </td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(rData['wip']['begining'])" />
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="">
+                                                Barang Dalam Proses Akhir
+                                            </td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <span>(</span>
+                                                <t t-esc="'{0:,.2f}'.format(rData['wip']['ending'])" />
+                                                <span>)</span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td >
+                                                <b>Barang Jadi Setelah Proses</b>
+                                            </td>
+                                            <td class="text-right ">
+
+                                            </td>
+                                            <td></td>
+                                            <td class="total-row"></td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(rData['wip']['total'])" />
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <!-- BARANG JADI -->
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>V</td>
+                                            <td colspan="2">
+                                                <strong>BARANG JADI</strong>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                Persediaan Barang Jadi Awal
+                                            </td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <t t-esc="'{0:,.2f}'.format(rData['goods']['begining'])" />
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="">
+                                                Persediaan Barang Jadi Akhir
+                                            </td>
+                                            <td class="text-right">
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <span>(</span>
+                                                <t t-esc="'{0:,.2f}'.format(rData['goods']['ending'])" />
+                                                <span>)</span>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                                <b>HARGA POKOK PRODUKSI (CoGM)</b>
+                                            </td>
+                                            <td class="total-row"></td>
+                                            <td class="text-right">
+                                                <b t-esc="'{0:,.2f}'.format(rData['cogm'])" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer" style="font-size:6pt;">
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Page </span>
+                                <span class="page" />
+                                <span>of</span>
+                                <span class="topage" />
+                            </div>
+                            <div class="col-6 text-right">
+                                <span>Cost of Goods Manufactured</span>
+                                <span> | </span>
+                                <span style="padding:0;margin:0;" t-field="user.company_id.name" />
+                                <span> | </span>
+                                <span t-field="doc.date_from" />
+                                <span>-</span>
+                                <span t-field="doc.date_to" />
+                                <span> | </span>
+                                <span>Printed at : </span>
+                                <span t-field="doc.create_date" />
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

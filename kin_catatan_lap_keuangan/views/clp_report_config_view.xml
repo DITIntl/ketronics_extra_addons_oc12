@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record model="ir.ui.view" id="clp_report_config_form">
+            <field name="name">clp_report_config_form</field>
+            <field name="model">clp.report.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="execute" string="Save" type="object" class="btn btn-primary" />
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+
+                        <notebook>
+                            <page name="biaya_penjualan" string="Biaya Penjualan">
+                                <field name="sales_cost_account_ids" options="{'no_create': True}" widget="many2many">
+                                    <tree >
+                                        <field name="code" />
+                                        <field name="name" />
+                                        <field name="user_type_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="biaya_administrasi_dan_umum" string="Biaya Administrasi dan Umum">
+                                <field name="general_cost_account_ids" options="{'no_create': True}" widget="many2many">
+                                    <tree >
+                                        <field name="code" />
+                                        <field name="name" />
+                                        <field name="user_type_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="penghasilan_dari_luar_usaha" string="Penghasilan Dari Luar Usaha">
+                                <field name="other_income_account_ids" options="{'no_create': True}" widget="many2many">
+                                    <tree >
+                                        <field name="code" />
+                                        <field name="name" />
+                                        <field name="user_type_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="biaya_lain_lain" string="Biaya Lain-Lain">
+                                <field name="other_cost_account_ids" options="{'no_create': True}" widget="many2many">
+                                    <tree >
+                                        <field name="code" />
+                                        <field name="name" />
+                                        <field name="user_type_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="clp_report_config_action">
+            <field name="name">Catatan Laporan Keuangan</field>
+            <field name="res_model">clp.report.config</field>
+            <field name="view_id" ref="clp_report_config_form" />
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="res_id" ref="clp_report_config_default" />
+        </record>
+
+        <menuitem id="clp_report_config_menu" name="Catatan Laporan Keuangan" parent="account.menu_finance_configuration" action="clp_report_config_action" sequence="98"/>
+
+    </data>
+</odoo>

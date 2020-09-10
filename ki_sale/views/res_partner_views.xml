@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="res_partner_base_statement" model="ir.ui.view">
+            <field name="name">res.partner.base.statement</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
+            <field name="groups_id" eval="[(4, ref('product.group_sale_pricelist'))]"/>
+            <field name="arch" type="xml">
+                <field name="property_product_pricelist" position="after">
+                    <field name="is_base_statement"/>
+                </field>
+            </field>
+        </record>
+</odoo>

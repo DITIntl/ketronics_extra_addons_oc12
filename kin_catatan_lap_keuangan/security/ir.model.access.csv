@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_clp_report_config,kin_catatan_lap_keuangan.access_clp_report_config,model_clp_report_config,base.group_user,1,1,1,1

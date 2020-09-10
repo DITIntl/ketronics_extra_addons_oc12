@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="clp_report_wizard_form" model="ir.ui.view">
+            <field name="name">clp_report_wizard_form</field>
+            <field name="model">clp.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button type="object" name="action_submit" string="Submit" class="oe_highlight"/>                        
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id="clp_report_wizard_action"
+            res_model="clp.report.wizard"
+            name="Catatan Laporan Keuangan"
+            src_model="account.move.line"
+            view_mode="form"
+            multi="True"
+            target="new"
+            key2="client_action_multi"
+        />
+
+        <menuitem id="clp_report_wizard_menu" name="Catatan Laporan Keuangan" parent="account.menu_finance_reports" action="clp_report_wizard_action" sequence="98"/>
+
+    </data>
+</odoo>

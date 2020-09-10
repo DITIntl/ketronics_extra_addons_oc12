@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="butir_sales_report_form_inherit" model="ir.ui.view">
+            <field name="name">butir_sales_report_form_inherit</field>
+            <field name="model">butir.sales.report.wizard</field>
+            <field name="inherit_id" ref="bt_ketronics_sales_report.butir_sales_report_form"/>
+            <field name="arch" type="xml">
+                <button name="action_submit" position="after">
+                    <button name="action_submit" string="Print Excel"
+                            type="object" class="oe_highlight"
+                            context="{'excel_report':1}"
+                    />
+                </button>
+            </field>
+        </record>
+
+        <report
+            id="action_report_sales_excel"
+            model="butir.sales.report.wizard"
+            string="Sales Report"
+            report_type="xlsx"
+            name="ki_sale.report_sales_excel"
+            file="sale_report_excel"
+            attachment_use="False"
+            />
+    </data>
+</odoo>

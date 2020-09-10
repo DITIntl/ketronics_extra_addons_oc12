@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record model="report.paperformat" id="bt_mc_report_paper_format">
+            <field name="name">bt_mc_report_paper_format</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_width">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_right">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">15</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">96</field>
+        </record>        
+        
+        <report 
+            id="mc_report_action" 
+            model="mc.report.wizard" 
+            string="Cost of Goods Manufactured" 
+            report_type="qweb-pdf" 
+            attachment_use="False"
+            print_report_name="'Manufacture_Cost_Report_%s' % object.date_from" 
+            name="bt_ketronics_manufacture_cost_report.mc_report_template" 
+            file="bt_ketronics_manufacture_cost_report.mc_report_template"
+            paperformat="bt_mc_report_paper_format" 
+            menu="False"
+            />
+
+
+    </data>
+</odoo>

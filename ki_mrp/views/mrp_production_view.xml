@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+
+        <record id="sm_mrp_production_form_view_inherit" model="ir.ui.view">
+            <field name="name">sm_mrp_production_form_view_inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field eval="18" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="attributes"> 
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
